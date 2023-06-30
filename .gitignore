@@ -1,3 +1,5 @@
+raygui/projects/vs2022
+*.user
 # Prerequisites
 *.d
 
