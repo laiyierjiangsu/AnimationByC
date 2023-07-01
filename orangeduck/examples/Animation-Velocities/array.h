@@ -4,6 +4,7 @@
 #include <string.h>
 #include <stdio.h>
 
+
 //--------------------------------------
 
 // Basic type representing a pointer to some
@@ -16,7 +17,7 @@ template<typename T>
 struct slice1d
 {
 	int size;
-	T* __restrict__ data;
+	T*  data;
 	
 	slice1d(int _size, T* _data) : size(_size), data(_data) {}
 	
@@ -33,7 +34,7 @@ template<typename T>
 struct slice2d
 {
 	int rows, cols;
-	T* __restrict__ data;
+	T*  data;
 	
 	slice2d(int _rows, int _cols, T* _data) : rows(_rows), cols(_cols), data(_data) {}
 

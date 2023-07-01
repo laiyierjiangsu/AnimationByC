@@ -35,10 +35,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{50A98C3D-C898-4830-A00B-3F78DC2E742B}</ProjectGuid>
+    <ProjectGuid>{F87D8618-44E6-4854-979A-E257FDD2FEB5}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>style_selector</RootNamespace>
-    <ProjectName>animation_curve</ProjectName>
+    <ProjectName>Animation-Velocities</ProjectName>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -188,7 +188,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_DEBUG;_CONSOLE;PLATFORM_DESKTOP;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <CompileAs>CompileAsC</CompileAs>
+      <CompileAs>CompileAsCpp</CompileAs>
       <AdditionalIncludeDirectories>$(SolutionDir)..\..\src;$(SolutionDir)..\..\src\external;$(SolutionDir)..\..\..\raylib\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/FS %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
@@ -349,10 +349,21 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\examples\animation_curve\animation_curve.c" />
+    <ClInclude Include="array.h" />
+    <ClInclude Include="character.h" />
+    <ClInclude Include="common.h" />
+    <ClInclude Include="database.h" />
+    <ClInclude Include="quat.h" />
+    <ClInclude Include="spring.h" />
+    <ClInclude Include="vec.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\examples\animation_curve\gui_curve_editor.h" />
+    <None Include="LICENSE" />
+    <None Include="Makefile" />
+    <None Include="README.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="velocities.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

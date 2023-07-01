@@ -1,12 +1,12 @@
-extern "C"
-{
+//extern "C"
+//{
 #include "raylib.h"
 #define RAYMATH_STATIC_INLINE
 #include "raymath.h"
 #include "rlgl.h"
 #define RAYGUI_IMPLEMENTATION
 #include "raygui.h"
-}
+//}
 #if defined(PLATFORM_WEB)
 #include <emscripten/emscripten.h>
 #endif
@@ -28,7 +28,11 @@ extern "C"
 
 static inline Vector3 to_Vector3(vec3 v)
 {
-    return (Vector3){ v.x, v.y, v.z };
+    Vector3  r;
+    r.x = v.x;
+    r.y = v.y;
+    r.z = v.z;
+    return r;
 }
 
 //--------------------------------------
@@ -132,8 +136,8 @@ void orbit_camera_update(
     
     vec3 eye = target + quat_mul_vec3(rotation_altitude, position);
 
-    cam.target = (Vector3){ target.x, target.y, target.z };
-    cam.position = (Vector3){ eye.x, eye.y, eye.z };
+    cam.target =  to_Vector3( target );
+    cam.position = to_Vector3(eye);
 }
 
 //--------------------------------------
@@ -1230,6 +1234,10 @@ void update_callback(void* args)
     ((std::function<void()>*)args)->operator()();
 }
 
+void get_file_fullpath(char* dst , int length, char* file_name)
+{
+    sprintf_s(dst, length,"./resources/%s", file_name);
+}
 int main(void)
 {
     // Init Window
@@ -1247,9 +1255,10 @@ int main(void)
     // Camera
 
     Camera3D camera = { 0 };
-    camera.position = (Vector3){ 2.0f, 3.0f, 5.0f };
-    camera.target = (Vector3){ -0.5f, 1.0f, 0.0f };
-    camera.up = (Vector3){ 0.0f, 1.0f, 0.0f };
+   
+    camera.position = to_Vector3(vec3{ 2.0f, 3.0f, 5.0f });
+    camera.target = to_Vector3(vec3{ -0.5f, 1.0f, 0.0f });
+    camera.up =  to_Vector3(vec3{ 0.0f, 1.0f, 0.0f });
     camera.fovy = 45.0f;
     camera.projection = CAMERA_PERSPECTIVE;
     
@@ -1257,9 +1266,14 @@ int main(void)
     float camera_altitude = 0.4f;
     float camera_distance = 3.0f;
     
+   
     // Ground Plane
-    
-    Shader ground_plane_shader = LoadShader("./resources/checkerboard.vs", "./resources/checkerboard.fs");
+    char checkerboard_vs_path[_MAX_PATH];
+    get_file_fullpath(checkerboard_vs_path, _MAX_PATH, "checkerboard.vs");
+    char checkerboard_ps_path[_MAX_PATH];
+    get_file_fullpath(checkerboard_ps_path, _MAX_PATH, "checkerboard.fs");
+
+    Shader ground_plane_shader = LoadShader(checkerboard_vs_path, checkerboard_ps_path);
     Mesh ground_plane_mesh = GenMeshPlane(40.0f, 40.0f, 10, 10);
     Model ground_plane_model = LoadModelFromMesh(ground_plane_mesh);
     ground_plane_model.materials[0].shader = ground_plane_shader;
@@ -1267,9 +1281,17 @@ int main(void)
     // Character
     
     character character_data;
-    character_load(character_data, "./resources/character.bin");
+    char character_path[_MAX_PATH];
+    get_file_fullpath(character_path, _MAX_PATH, "character.bin");
+    character_load(character_data, character_path);
     
-    Shader character_shader = LoadShader("./resources/character.vs", "./resources/character.fs");
+    char character_vs_path[_MAX_PATH];
+    get_file_fullpath(character_vs_path, _MAX_PATH, "character.vs");
+
+    char character_ps_path[_MAX_PATH];
+    get_file_fullpath(character_ps_path, _MAX_PATH, "character.fs");
+
+    Shader character_shader = LoadShader(character_vs_path,character_ps_path);
     Mesh character_mesh = make_character_mesh(character_data);
     Model character_model = LoadModelFromMesh(character_mesh);
     character_model.materials[0].shader = character_shader;
@@ -1277,6 +1299,8 @@ int main(void)
     // Load Animation Data
     
     database db;
+    char db_path[_MAX_PATH];
+    get_file_fullpath(db_path, _MAX_PATH, "database.bin");
     database_load(db, "./resources/database.bin");
     
     // Playback
@@ -1857,8 +1881,8 @@ int main(void)
         DrawGrid(20, 1.0f);
         draw_axis(vec3(), quat());
         
-        DrawModel(ground_plane_model, (Vector3){0.0f, -0.01f, 0.0f}, 1.0f, WHITE);        
-        DrawModel(character_model, (Vector3){0.0f, 0.0f, 0.0f}, 1.0f, RAYWHITE);
+        DrawModel(ground_plane_model, to_Vector3(vec3{0.0f, -0.01f, 0.0f}), 1.0f, WHITE);        
+        DrawModel(character_model, to_Vector3(vec3{0.0f, 0.0f, 0.0f}), 1.0f, RAYWHITE);
         
         if (ik_enabled)
         {

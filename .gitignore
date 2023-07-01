@@ -1,5 +1,8 @@
+#immediate project compile result
 raygui/projects/vs2022
+orangeduck/projects/vs2022
 *.user
+
 # Prerequisites
 *.d
 
