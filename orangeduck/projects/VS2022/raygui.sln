@@ -11,6 +11,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Animation-Velocities", "..\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gcc2mvsv", "..\..\examples\gcc2msvc\gcc2mvsc.vcxproj", "{50A98C3D-C898-4830-A00B-3F78DC2E742B}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "spring-it-on", "..\..\examples\Spring-It-On\spring-it-on.vcxproj", "{57DDD324-9373-4B30-9481-7C8FA17C2A04}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug.DLL|x64 = Debug.DLL|x64
@@ -71,6 +73,22 @@ Global
 		{50A98C3D-C898-4830-A00B-3F78DC2E742B}.Release|x64.Build.0 = Release|x64
 		{50A98C3D-C898-4830-A00B-3F78DC2E742B}.Release|x86.ActiveCfg = Release|Win32
 		{50A98C3D-C898-4830-A00B-3F78DC2E742B}.Release|x86.Build.0 = Release|Win32
+		{57DDD324-9373-4B30-9481-7C8FA17C2A04}.Debug.DLL|x64.ActiveCfg = Debug|x64
+		{57DDD324-9373-4B30-9481-7C8FA17C2A04}.Debug.DLL|x64.Build.0 = Debug|x64
+		{57DDD324-9373-4B30-9481-7C8FA17C2A04}.Debug.DLL|x86.ActiveCfg = Debug|Win32
+		{57DDD324-9373-4B30-9481-7C8FA17C2A04}.Debug.DLL|x86.Build.0 = Debug|Win32
+		{57DDD324-9373-4B30-9481-7C8FA17C2A04}.Debug|x64.ActiveCfg = Debug|x64
+		{57DDD324-9373-4B30-9481-7C8FA17C2A04}.Debug|x64.Build.0 = Debug|x64
+		{57DDD324-9373-4B30-9481-7C8FA17C2A04}.Debug|x86.ActiveCfg = Debug|Win32
+		{57DDD324-9373-4B30-9481-7C8FA17C2A04}.Debug|x86.Build.0 = Debug|Win32
+		{57DDD324-9373-4B30-9481-7C8FA17C2A04}.Release.DLL|x64.ActiveCfg = Release|x64
+		{57DDD324-9373-4B30-9481-7C8FA17C2A04}.Release.DLL|x64.Build.0 = Release|x64
+		{57DDD324-9373-4B30-9481-7C8FA17C2A04}.Release.DLL|x86.ActiveCfg = Release|Win32
+		{57DDD324-9373-4B30-9481-7C8FA17C2A04}.Release.DLL|x86.Build.0 = Release|Win32
+		{57DDD324-9373-4B30-9481-7C8FA17C2A04}.Release|x64.ActiveCfg = Release|x64
+		{57DDD324-9373-4B30-9481-7C8FA17C2A04}.Release|x64.Build.0 = Release|x64
+		{57DDD324-9373-4B30-9481-7C8FA17C2A04}.Release|x86.ActiveCfg = Release|Win32
+		{57DDD324-9373-4B30-9481-7C8FA17C2A04}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -78,6 +96,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{F87D8618-44E6-4854-979A-E257FDD2FEB5} = {5DC256E9-D698-4D07-8AD7-DFDAE9125DE3}
 		{50A98C3D-C898-4830-A00B-3F78DC2E742B} = {5DC256E9-D698-4D07-8AD7-DFDAE9125DE3}
+		{57DDD324-9373-4B30-9481-7C8FA17C2A04} = {5DC256E9-D698-4D07-8AD7-DFDAE9125DE3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E926C768-6307-4423-A1EC-57E95B1FAB29}
