@@ -1,6 +1,7 @@
+#pragma once
+#ifdef EXE_INTERPOLATION
 #include "common.h"
 #include <float.h>
-
 //--------------------------------------
 
 void piecewise_interpolation(
@@ -131,3 +132,4 @@ int main(void)
 
     return 0;
 }
+#endif

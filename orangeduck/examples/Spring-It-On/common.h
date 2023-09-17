@@ -1,3 +1,18 @@
+#pragma once
+//#define EXE_CONTROLLER
+//#define EXE_DAMPER
+//#define EXE_DOUBLE_SPRING
+//#define EXE_DEAD_BLENDING
+//#define EXE_EXTRAPOLATION
+//#define EXE_INERTIALIZATION
+//#define EXE_INTERPOLATION
+//#define EXE_RESONANCE
+//#define EXE_SMOOTHING
+//#define EXE_SPRINGDAMPER
+//#define EXE_TIMED_SPRING
+//#define EXE_TRACKING
+//#define EXE_VELOCITY_SPRING
+
 //extern "C"
 //{
 #include "raylib.h"
@@ -6,6 +21,9 @@
 //}
 
 #include <string.h>
+
+
+#define M_PI 3.14159265358979323846f
 
 //--------------------------------------
 #undef max

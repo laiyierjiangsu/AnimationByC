@@ -1,85 +1,27 @@
+ #pragma once
+#ifdef EXE_INERTIALIZATION
 #include "common.h"
-
-#include <float.h>
-
 //--------------------------------------
 
-void dead_blending_transition(
-    float& ext_x, // Extrapolated position
-    float& ext_v, // Extrapolated velocity 
-    float& ext_t, // Time since transition
-    float src_x,  // Current position
-    float src_v)  // Current velocity
+void inertialize_transition(
+    float& off_x, float& off_v, 
+    float src_x, float src_v,
+    float dst_x, float dst_v)
 {
-    ext_x = src_x;
-    ext_v = src_v;
-    ext_t = 0.0f;
+    off_x = (src_x + off_x) - dst_x;
+    off_v = (src_v + off_v) - dst_v;
 }
 
-static inline float smoothstep(float x)
+void inertialize_update(
+    float& out_x, float& out_v,
+    float& off_x, float& off_v,
+    float in_x, float in_v,
+    float halflife,
+    float dt)
 {
-    x = clamp(x, 0.0f, 1.0f);
-    return x * x * (3.0f - 2.0f * x);  
-}
-
-void dead_blending_update(
-    float& out_x,    // Output position
-    float& out_v,    // Output velocity
-    float& ext_x,    // Extrapolated position
-    float& ext_v,    // Extrapolated velocity
-    float& ext_t,    // Time since transition
-    float in_x,      // Input position
-    float in_v,      // Input velocity
-    float blendtime, // Blend time
-    float dt,        // Delta time
-    float eps=1e-8f)
-{    
-    if (ext_t < blendtime)
-    {
-        ext_x += ext_v * dt;
-        ext_t += dt;
-
-        float alpha = smoothstep(ext_t / max(blendtime, eps));
-        out_x = lerp(ext_x, in_x, alpha);
-        out_v = lerp(ext_v, in_v, alpha);
-    }
-    else
-    {
-        out_x = in_x;
-        out_v = in_v;
-        ext_t = FLT_MAX;
-    }
-}
-
-void dead_blending_update_decay(
-    float& out_x,         // Output position
-    float& out_v,         // Output velocity
-    float& ext_x,         // Extrapolated position
-    float& ext_v,         // Extrapolated velocity
-    float& ext_t,         // Time since transition
-    float in_x,           // Input position
-    float in_v,           // Input velocity
-    float blendtime,      // Blend time
-    float decay_halflife, // Decay Halflife
-    float dt,             // Delta time
-    float eps=1e-8f)
-{    
-    if (ext_t < blendtime)
-    {
-        ext_v = damper_decay_exact(ext_v, decay_halflife, dt);
-        ext_x += ext_v * dt;
-        ext_t += dt;
-
-        float alpha = smoothstep(ext_t / max(blendtime, eps));
-        out_x = lerp(ext_x, in_x, alpha);
-        out_v = lerp(ext_v, in_v, alpha);
-    }
-    else
-    {
-        out_x = in_x;
-        out_v = in_v;
-        ext_t = FLT_MAX;
-    }
+    decay_spring_damper_exact(off_x, off_v, halflife, dt);
+    out_x = in_x + off_x;
+    out_v = in_v + off_v;
 }
 
 void inertialize_function(float& g, float& gv, float t, float freq, float amp, float phase, float off)
@@ -127,14 +69,12 @@ int main(void)
     float g = x;
     float goalOffset = 600;
 
-    float blendtime = 0.5f;
-    float decay_halflife = 0.25f;
+    float halflife = 0.1f;
     float dt = 1.0 / 60.0f;
     float timescale = 240.0f;
     
-    float ext_x = 0.0;
-    float ext_v = 0.0;
-    float ext_t = FLT_MAX;
+    float off_x = 0.0;
+    float off_v = 0.0;
     bool inertialize_toggle = false;
 
     SetTargetFPS(1.0f / dt);
@@ -159,25 +99,35 @@ int main(void)
             g_prev[i] = g_prev[i - 1];
         }
         
-        //if (GuiButton((Rectangle){ 100, 75, 120, 20 }, "Transition"))
-        if (GuiButton((Rectangle){ 100, 45, 120, 20 }, "Transition"))
+        if (GuiButton((Rectangle){ 100, 75, 120, 20 }, "Transition"))
         {
             inertialize_toggle = !inertialize_toggle;
             
-            float src_x = x_prev[1];
-            float src_v = (x_prev[1] - x_prev[2]) / (t_prev[1] - t_prev[2]);
-
-            dead_blending_transition(
-                ext_x, ext_v, ext_t,
-                src_x, src_v);
+            float src_x = g_prev[1];
+            float src_v = (g_prev[1] - g_prev[2]) / (t_prev[1] - t_prev[2]);
+            float dst_x, dst_v;
+            
+            if (inertialize_toggle)
+            {
+                inertialize_function1(dst_x, dst_v, t);                    
+            }
+            else
+            {
+                inertialize_function2(dst_x, dst_v, t);
+            }
+        
+            inertialize_transition(
+                off_x, off_v,
+                src_x, src_v,
+                dst_x, dst_v);
         }
         
-        GuiSliderBar((Rectangle){ 100, 20, 120, 20 }, "blendtime", TextFormat("%5.3f", blendtime), &blendtime, 0.0f, 1.0f);
-        //GuiSliderBar((Rectangle){ 100, 45, 120, 20 }, "dt", TextFormat("%5.3f", dt), &dt, 1.0 / 60.0f, 0.1f);
+        GuiSliderBar((Rectangle){ 100, 20, 120, 20 }, "halflife", TextFormat("%5.3f", halflife), &halflife, 0.0f, 1.0f);
+        GuiSliderBar((Rectangle){ 100, 45, 120, 20 }, "dt", TextFormat("%5.3f", dt), &dt, 1.0 / 60.0f, 0.1f);
         
         // Update Spring
         
-        //SetTargetFPS(1.0f / dt);
+        SetTargetFPS(1.0f / dt);
         
         t += dt;
         
@@ -191,8 +141,7 @@ int main(void)
             inertialize_function2(g, gv, t);
         }
         
-        dead_blending_update(x, v, ext_x, ext_v, ext_t, g, gv, blendtime, dt);
-        //dead_blending_update_decay(x, v, ext_x, ext_v, ext_t, g, gv, blendtime, decay_halflife, dt);
+        inertialize_update(x, v, off_x, off_v, g, gv, halflife, dt);
         
         x_prev[0] = x;
         v_prev[0] = v;      
@@ -232,3 +181,4 @@ int main(void)
 
     return 0;
 }
+#endif

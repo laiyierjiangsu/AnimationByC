@@ -1,5 +1,6 @@
+#pragma once
+#ifdef EXE_TIMED_SPRING
 #include "common.h"
-
 //--------------------------------------
 
 void timed_spring_damper_exact(
@@ -156,3 +157,4 @@ int main(void)
 
     return 0;
 }
+#endif

@@ -1,5 +1,6 @@
+#pragma once
+#ifdef EXE_SPRINGDAMPER
 #include "common.h"
-
 enum
 {
     HISTORY_MAX = 256
@@ -112,3 +113,4 @@ int main(void)
 
     return 0;
 }
+#endif

@@ -1,5 +1,8 @@
-#include "common.h"
+#pragma once
 
+#define EXE_CONTROLLER
+#ifdef EXE_CONTROLLER
+#include "common.h"
 //--------------------------------------
 
 void spring_character_update(
@@ -106,8 +109,12 @@ int main(void)
         }
         
         // Controller
-        
-        GuiSliderBar((Rectangle){ 100, 20, 120, 20 }, "halflife", TextFormat("%5.3f", halflife), &halflife, 0.0f, 1.0f);
+        Rectangle rect;
+        rect.x = 100;
+        rect.y = 20;
+        rect.width = 120;
+        rect.height = 20;
+        GuiSliderBar(rect, "halflife", TextFormat("%5.3f", halflife), &halflife, 0.0f, 1.0f);
 
         // Update Spring
         
@@ -163,7 +170,9 @@ int main(void)
                 DrawCircleV(start, 3, MAROON);                
             }
             
-            DrawCircleV((Vector2){trajx, trajy}, 4, DARKBLUE);                
+            Vector2 c = {
+                trajx, trajy };
+            DrawCircleV(c, 4, DARKBLUE);                
             
             Vector2 gamepadPosition = {60, 300};
             Vector2 gamepadStickPosition = {gamepadPosition.x + gamepadx * 25, gamepadPosition.y + gamepady * 25};
@@ -180,3 +189,4 @@ int main(void)
 
     return 0;
 }
+#endif

@@ -15,46 +15,43 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="spring-it-on.cpp">
+    <ClCompile Include="controller.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="controller.c">
+    <ClCompile Include="damper.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="damper.c">
+    <ClCompile Include="deadblending.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="deadblending.c">
+    <ClCompile Include="doublespring.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="doublespring.c">
+    <ClCompile Include="extrapolation.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="extrapolation.c">
+    <ClCompile Include="inertialization.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="inertialization.c">
+    <ClCompile Include="interpolation.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="interpolation.c">
+    <ClCompile Include="resonance.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="resonance.c">
+    <ClCompile Include="smoothing.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="smoothing.c">
+    <ClCompile Include="springdamper.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="springdamper.c">
+    <ClCompile Include="timedspring.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="timedspring.c">
+    <ClCompile Include="tracking.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="tracking.c">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="velocityspring.c">
+    <ClCompile Include="velocityspring.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

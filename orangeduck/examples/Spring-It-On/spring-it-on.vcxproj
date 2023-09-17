@@ -128,20 +128,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="controller.c" />
-    <ClCompile Include="damper.c" />
-    <ClCompile Include="deadblending.c" />
-    <ClCompile Include="doublespring.c" />
-    <ClCompile Include="extrapolation.c" />
-    <ClCompile Include="inertialization.c" />
-    <ClCompile Include="interpolation.c" />
-    <ClCompile Include="resonance.c" />
-    <ClCompile Include="smoothing.c" />
-    <ClCompile Include="spring-it-on.cpp" />
-    <ClCompile Include="springdamper.c" />
-    <ClCompile Include="timedspring.c" />
-    <ClCompile Include="tracking.c" />
-    <ClCompile Include="velocityspring.c" />
+    <ClCompile Include="controller.cpp" />
+    <ClCompile Include="damper.cpp" />
+    <ClCompile Include="deadblending.cpp" />
+    <ClCompile Include="doublespring.cpp" />
+    <ClCompile Include="extrapolation.cpp" />
+    <ClCompile Include="inertialization.cpp" />
+    <ClCompile Include="interpolation.cpp" />
+    <ClCompile Include="resonance.cpp" />
+    <ClCompile Include="smoothing.cpp" />
+    <ClCompile Include="springdamper.cpp" />
+    <ClCompile Include="timedspring.cpp" />
+    <ClCompile Include="tracking.cpp" />
+    <ClCompile Include="velocityspring.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="common.h" />

@@ -1,5 +1,6 @@
+#pragma once
+#ifdef EXE_TRACKING
 #include "common.h"
-
 //--------------------------------------
 
 void tracking_function(float& g, float& gv, float t, float freq, float amp, float phase, float off)
@@ -463,3 +464,4 @@ int main(void)
 
     return 0;
 }
+#endif

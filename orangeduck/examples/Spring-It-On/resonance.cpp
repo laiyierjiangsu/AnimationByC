@@ -1,5 +1,6 @@
+#pragma once
+#ifdef EXE_RESONANCE
 #include "common.h"
-
 //--------------------------------------
 
 float spring_energy(
@@ -150,3 +151,4 @@ int main(void)
 
     return 0;
 }
+#endif

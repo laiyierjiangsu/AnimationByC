@@ -1,18 +1,28 @@
+#pragma once
+#ifdef EXE_VELOCITY_SPRING
 #include "common.h"
-
 //--------------------------------------
 
-void double_spring_damper_exact(
-    float& x, 
-    float& v, 
+void velocity_spring_damper_exact(
+    float& x,
+    float& v,
     float& xi,
-    float& vi,
     float x_goal,
-    float halflife, 
-    float dt)
+    float v_goal,
+    float halflife,
+    float dt,
+    float apprehension = 2.0f,
+    float eps = 1e-5f)
 {
-    simple_spring_damper_exact(xi, vi, x_goal, 0.5f * halflife, dt);
-    simple_spring_damper_exact(x, v, xi, 0.5f * halflife, dt);
+    float x_diff = ((x_goal - xi) > 0.0f ? 1.0f : -1.0f) * v_goal;
+    
+    float t_goal_future = dt + apprehension * halflife;
+    float x_goal_future = fabs(x_goal - xi) > t_goal_future * v_goal ?
+        xi + x_diff * t_goal_future : x_goal;
+    
+    simple_spring_damper_exact(x, v, x_goal_future, halflife, dt);
+    
+    xi = fabs(x_goal - xi) > dt * v_goal ? xi + x_diff * dt : x_goal; 
 }
 
 //--------------------------------------
@@ -27,7 +37,6 @@ float v_prev[HISTORY_MAX];
 float t_prev[HISTORY_MAX];
 
 float xi_prev[HISTORY_MAX];
-float vi_prev[HISTORY_MAX];
 
 int main(void)
 {
@@ -36,7 +45,7 @@ int main(void)
     const int screenWidth = 640;
     const int screenHeight = 360;
 
-    InitWindow(screenWidth, screenHeight, "raylib [springs] example - doublespring");
+    InitWindow(screenWidth, screenHeight, "raylib [springs] example - velocityspring");
 
     // Init Variables
 
@@ -50,8 +59,10 @@ int main(void)
     float dt = 1.0 / 60.0f;
     float timescale = 240.0f;
 
+    float goal_velocity = 100.0f;
+    float apprehension = 2.0f;
+
     float xi = x;
-    float vi = v;
 
     SetTargetFPS(1.0f / dt);
 
@@ -62,9 +73,8 @@ int main(void)
         t_prev[i] = t;
         
         xi_prev[i] = x;
-        vi_prev[i] = v;
     }
-    
+
     while (!WindowShouldClose())
     {
         // Shift History
@@ -76,7 +86,6 @@ int main(void)
             t_prev[i] = t_prev[i - 1];
             
             xi_prev[i] = xi_prev[i - 1];
-            vi_prev[i] = vi_prev[i - 1];
         }
         
         // Get Goal
@@ -86,10 +95,11 @@ int main(void)
             g = GetMousePosition().y;
         }
         
-        // Double Spring
+        // Timed Spring
         
         GuiSliderBar((Rectangle){ 100, 20, 120, 20 }, "halflife", TextFormat("%5.3f", halflife), &halflife, 0.0f, 1.0f);
-        GuiSliderBar((Rectangle){ 100, 45, 120, 20 }, "dt", TextFormat("%5.3f", dt), &dt, 1.0 / 60.0f, 0.1f);
+        GuiSliderBar((Rectangle){ 100, 45, 120, 20 }, "goal velocity", TextFormat("%5.3f", goal_velocity), &goal_velocity, 0.0f, 500.0f);
+        GuiSliderBar((Rectangle){ 100, 75, 120, 20 }, "apprehension", TextFormat("%5.3f", apprehension), &apprehension, 0.0f, 5.0f);
         
         // Update Spring
         
@@ -97,14 +107,13 @@ int main(void)
         
         t += dt;
         
-        double_spring_damper_exact(x, v, xi, vi, g, halflife, dt);
+        velocity_spring_damper_exact(x, v, xi, g, goal_velocity, halflife, dt);
         
         x_prev[0] = x;
         v_prev[0] = v;      
         t_prev[0] = t;
         
         xi_prev[0] = xi;
-        vi_prev[0] = vi;
         
         BeginDrawing();
         
@@ -139,3 +148,4 @@ int main(void)
 
     return 0;
 }
+#endif

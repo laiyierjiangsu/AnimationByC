@@ -1,5 +1,6 @@
+#pragma once
+#ifdef EXE_EXTRAPOLATION
 #include "common.h"
-
 #include <float.h>
 
 //--------------------------------------
@@ -158,3 +159,4 @@ int main(void)
 
     return 0;
 }
+#endif
